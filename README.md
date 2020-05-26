@@ -1,2 +1,2 @@
 # DoneWithIt
-It us like Marketing mobile application.
+It is like Marketing mobile application.
