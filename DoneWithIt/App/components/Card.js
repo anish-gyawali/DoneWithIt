@@ -1,17 +1,30 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
-import colors from "../config/colors";
-import AppText from "./Text";
+import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
-function Card(props) {
+import colors from "../config/colors";
+import Text from "./Text";
+
+function Card({ title, subTitle, imageUrl, thumbnailUrl, onPress }) {
   return (
-    <View style={styles.card}>
-      <Image style={styles.image} source={props.image} />
-      <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>{props.title}</AppText>
-        <AppText style={styles.subTitle}>{props.subTitle}</AppText>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.card}>
+        <Image
+          style={styles.image}
+          tint="light"
+          preview={{ uri: thumbnailUrl }}
+          uri={imageUrl}
+        />
+        <View style={styles.detailsContainer}>
+          <Text style={styles.title} numberOfLines={1}>
+            {title}
+          </Text>
+          <Text style={styles.subTitle} numberOfLines={2}>
+            {subTitle}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({

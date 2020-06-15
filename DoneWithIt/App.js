@@ -1,25 +1,35 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import WelcomeScreen from "./App/screens/WelcomeScreen";
-import ViewImageScreen from "./App/screens/ViewImageScreen";
-import ListingDetailsScreen from "./App/screens/ListingDetailsScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppLoading, Notifications } from "expo";
 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AppText from "./App/components/Text";
-import AppButton from "./App/components/Button";
-import Card from "./App/components/Card";
-import MessageScreen from "./App/screens/MessageScreen";
-import Screen from "./App/components/Screen";
-import Icon from "./App/components/Icon";
-import ListItem from "./App/components/lists/ListItem";
-import AccountScreen from "./App/screens/AccountScreen";
-import ListingScreen from "./App/screens/ListingScreen";
-import AppTextInput from "./App/components/TextInput";
-import AppPicker from "./App/components/Picker";
-import LoginScreen from "./App/screens/LoginScreen";
-import ListingEditScreen from "./App/screens/ListingEditScreen";
-import RegisterScreen from "./App/screens/RegisterScreen";
+import navigationTheme from "./App/navigation/navigationTheme";
+import AppNavigator from "./App/navigation/AppNavigator";
+import OfflineNotice from "./App/components/OfflineNotice";
+import AuthNavigator from "./App/navigation/AuthNavigator";
+import AuthContext from "./App/auth/context";
+import authStorage from "./App/auth/storage";
+import { navigationRef } from "./App/navigation/rootNavigation";
+import ContactSellerForm from "./App/components/ContactSellerForm";
 
 export default function App() {
-  return <ListingEditScreen />;
+  const [user, setUser] = useState();
+  const [isReady, setIsReady] = useState(false);
+
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setUser(user);
+  };
+
+  if (!isReady)
+    return (
+      <AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} />
+    );
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      <OfflineNotice />
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
+  );
 }
