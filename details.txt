@@ -1,2 +1,6 @@
 #DoneWithIt 
-This application is made under the guidlines of online class "Code with Mosh".
+-React Native Expo App
+-This application is made under the guidlines of online class "Code with Mosh".
+-In this appllication we have used Nodejs as fake backend to check if our application is working or not.
+-The proper use of Object Oriened programming.
+-This is only frontend part of application.
